@@ -87,10 +87,10 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-3">
             <div className="relative">
-              <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <UserCheck className="h-6 w-6 text-blue-600" />
+              <div className="size-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <UserCheck className="size-6 text-blue-600" />
               </div>
-              <div className={`absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-white ${getStatusColor(doctor.status)}`}></div>
+              <div className={`absolute -bottom-1 -right-1 size-4 rounded-full border-2 border-white ${getStatusColor(doctor.status)}`}></div>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">{doctor.name}</h3>
@@ -102,14 +102,14 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
         
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="flex items-center text-gray-600">
-            <Users className="h-4 w-4 mr-2" />
+            <Users className="size-4 mr-2" />
             <div>
               <p className="font-medium text-gray-900">{doctor.patientsHandled}</p>
               <p className="text-xs">Patients Today</p>
             </div>
           </div>
           <div className="flex items-center text-gray-600">
-            <Clock className="h-4 w-4 mr-2" />
+            <Clock className="size-4 mr-2" />
             <div>
               <p className="font-medium text-gray-900">{doctor.avgResponseTime}</p>
               <p className="text-xs">Avg Response</p>
@@ -162,7 +162,7 @@ export function DoctorSection() {
                 style={{ backgroundColor: autoAssign ? '#F97316' : '#D1D5DB' }}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  className={`inline-block size-4 transform rounded-full bg-white transition-transform ${
                     autoAssign ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />

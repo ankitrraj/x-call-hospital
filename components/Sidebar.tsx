@@ -61,8 +61,8 @@ export function Sidebar() {
       {/* Logo */}
       <div className="flex h-16 items-center px-6 border-b border-gray-200">
         <div className="flex items-center space-x-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded bg-orange-500">
-            <Stethoscope className="h-5 w-5 text-white" />
+          <div className="flex size-8 items-center justify-center rounded bg-orange-500">
+            <Stethoscope className="size-5 text-white" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-gray-900">XCall</h1>

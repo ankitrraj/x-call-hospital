@@ -32,11 +32,11 @@ export function ChartsSection() {
             <span>Appointments Overview</span>
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center">
-                <div className="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
+                <div className="size-3 bg-orange-500 rounded-full mr-2"></div>
                 <span>Today</span>
               </div>
               <div className="flex items-center">
-                <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                <div className="size-3 bg-blue-500 rounded-full mr-2"></div>
                 <span>Last 7 Days</span>
               </div>
             </div>

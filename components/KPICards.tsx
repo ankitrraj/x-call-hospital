@@ -26,9 +26,9 @@ function KPICard({ title, value, icon: Icon, trend, color }: KPICardProps) {
             {trend && (
               <div className="flex items-center mt-2">
                 {trend.isPositive ? (
-                  <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
+                  <TrendingUp className="size-4 text-green-500 mr-1" />
                 ) : (
-                  <TrendingDown className="h-4 w-4 text-red-500 mr-1" />
+                  <TrendingDown className="size-4 text-red-500 mr-1" />
                 )}
                 <span className={`text-sm font-medium ${
                   trend.isPositive ? 'text-green-600' : 'text-red-600'
@@ -39,7 +39,7 @@ function KPICard({ title, value, icon: Icon, trend, color }: KPICardProps) {
             )}
           </div>
           <div className={`p-3 rounded-full ${color}`}>
-            <Icon className="h-6 w-6 text-white" />
+            <Icon className="size-6 text-white" />
           </div>
         </div>
       </CardContent>

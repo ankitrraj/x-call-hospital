@@ -67,17 +67,17 @@ function NotificationItem({ notification }: { notification: Notification }) {
   const getIcon = (type: string) => {
     switch (type) {
       case 'whatsapp':
-        return <MessageSquare className="h-5 w-5 text-green-500" />;
+        return <MessageSquare className="size-5 text-green-500" />;
       case 'sms':
-        return <MessageSquare className="h-5 w-5 text-blue-500" />;
+        return <MessageSquare className="size-5 text-blue-500" />;
       case 'call':
-        return <Phone className="h-5 w-5 text-orange-500" />;
+        return <Phone className="size-5 text-orange-500" />;
       case 'emergency':
-        return <AlertTriangle className="h-5 w-5 text-red-500" />;
+        return <AlertTriangle className="size-5 text-red-500" />;
       case 'feedback':
-        return <Star className="h-5 w-5 text-yellow-500" />;
+        return <Star className="size-5 text-yellow-500" />;
       default:
-        return <MessageSquare className="h-5 w-5 text-gray-500" />;
+        return <MessageSquare className="size-5 text-gray-500" />;
     }
   };
 
@@ -115,7 +115,7 @@ function NotificationItem({ notification }: { notification: Notification }) {
         </div>
         {!notification.isRead && (
           <div className="flex-shrink-0">
-            <div className="h-2 w-2 bg-blue-500 rounded-full"></div>
+            <div className="size-2 bg-blue-500 rounded-full"></div>
           </div>
         )}
       </div>
@@ -167,7 +167,7 @@ export function NotificationsSection() {
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-600">Average Rating</span>
               <div className="flex items-center">
-                <Star className="h-4 w-4 text-yellow-500 mr-1" />
+                <Star className="size-4 text-yellow-500 mr-1" />
                 <span className="font-semibold">4.8/5</span>
               </div>
             </div>
@@ -194,15 +194,15 @@ export function NotificationsSection() {
           </CardHeader>
           <CardContent className="space-y-3">
             <Button variant="outline" className="w-full justify-start">
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="size-4 mr-2" />
               Daily Report
             </Button>
             <Button variant="outline" className="w-full justify-start">
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="size-4 mr-2" />
               Weekly Report
             </Button>
             <Button variant="outline" className="w-full justify-start">
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="size-4 mr-2" />
               Monthly Analytics
             </Button>
             <div className="pt-2 border-t">

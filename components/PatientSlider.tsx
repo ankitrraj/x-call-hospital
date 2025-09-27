@@ -88,8 +88,8 @@ function PatientCard({ patient }: { patient: Patient }) {
       <CardContent className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center space-x-3">
-            <div className="h-10 w-10 bg-orange-100 rounded-full flex items-center justify-center">
-              <User className="h-5 w-5 text-orange-600" />
+            <div className="size-10 bg-orange-100 rounded-full flex items-center justify-center">
+              <User className="size-5 text-orange-600" />
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">{patient.name}</h3>
@@ -103,11 +103,11 @@ function PatientCard({ patient }: { patient: Patient }) {
         
         <div className="space-y-2 text-sm">
           <div className="flex items-center text-gray-600">
-            <Phone className="h-4 w-4 mr-2" />
+            <Phone className="size-4 mr-2" />
             <span>{patient.contact}</span>
           </div>
           <div className="flex items-center text-gray-600">
-            <Calendar className="h-4 w-4 mr-2" />
+            <Calendar className="size-4 mr-2" />
             <span>{patient.time}</span>
           </div>
           <div className="mt-3">
@@ -128,11 +128,11 @@ export function PatientSlider() {
           <CardTitle>Today's Patients</CardTitle>
           <div className="flex space-x-2">
             <Button variant="outline" size="sm">
-              <Upload className="h-4 w-4 mr-2" />
+              <Upload className="size-4 mr-2" />
               Import Patients
             </Button>
             <Button variant="outline" size="sm">
-              <RefreshCw className="h-4 w-4 mr-2" />
+              <RefreshCw className="size-4 mr-2" />
               Sync from Calls
             </Button>
           </div>
