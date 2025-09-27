@@ -1,0 +1,228 @@
+# windsurf.rules
+# -------------------------
+# Windsurf Rules — Code Quality, Meaningfulness & Security Protocols
+# Use this file as the canonical ruleset for all contributors to the repo.
+#
+# Purpose:
+#   Ensure every code change is clear, maintainable, tested and secure.
+#   Enforce automated checks and human-review practices so the project remains
+#   production-ready and safe to operate in healthcare contexts.
+#
+# Scope:
+#   Applies to all code, configuration, infra-as-code, scripts and automation
+#   committed to this repository and its branches (feature/*, develop, main).
+#
+# NOTE:
+#   This is a ruleset, not magic — CI + pre-commit hooks + reviewers must enforce it.
+
+################################################################################
+# 1. BASIC PRINCIPLES (must-follow)
+################################################################################
+# 1.1 Meaningful Code
+#   - Every function/module/class must have a clear purpose.
+#   - Names must be descriptive (no single-letter names except loop indices).
+#   - Add docstrings/comments for any non-trivial logic explaining WHY (not just WHAT).
+
+# 1.2 No-Bug First Mindset
+#   - Do not commit code you are unsure about. If uncertain, open a draft PR and add TODOs & tests.
+#   - Every non-trivial change must include unit tests. Coverage for new code should be >= 80%.
+
+# 1.3 Security-First Mindset
+#   - Treat all input as untrusted. Validate & sanitize at API boundaries.
+#   - No secret, token, or credential may be committed. Use environment variables or secret manager.
+#   - Use libraries vetted by the team (avoid unmaintained packages).
+
+################################################################################
+# 2. GIT / BRANCH / PR RULES
+################################################################################
+# 2.1 Branch naming
+#   - feature/XCALL-<id>-short-desc
+#   - fix/XCALL-<id>-short-desc
+#   - chore/XCALL-<id>-short-desc
+
+# 2.2 Commit messages
+#   - Format: <JIRA-KEY>: <short summary>
+#   - Example: XCALL-12: add appointments API with validation
+#   - Longer description in body: why, what, how to test.
+
+# 2.3 Pull Requests
+#   - All PRs must target `develop`  unless a hotfix to `main` .
+#   - PR description must include:
+#       * Jira issue key
+#       * Short summary + motivation
+#       * Acceptance Criteria
+#       * How to test locally (commands)
+#       * Screenshots or logs if UI/API change
+#   - Require ≥1 reviewer (≥2 for security-sensitive or infra changes).
+#   - Do not merge until CI passes and reviewer approves.
+
+################################################################################
+# 3. CI / AUTOMATION (mandatory checks)
+################################################################################
+# On every PR run:
+#   - lint (ESLint / Prettier)
+#   - typecheck (tsc for TS projects)
+#   - unit tests (Jest / pytest) — fail on uncovered required lines
+#   - security scans:
+#       * dependency vulnerability scan (Snyk / Dependabot)
+#       * static analysis (Semgrep / CodeQL)
+#   - test coverage report (fail if < 80% for new code)
+#   - optional: snyk test must not return HIGH/CRITICAL without an approved exception
+
+# Merge policy:
+#   - CI must be green for all required checks.
+#   - No forced pushes to protected branches.
+#   - Use squash or merge strategy consistent with team policy.
+
+################################################################################
+# 4. PRE-COMMIT / LOCAL DEV (enforce locally)
+################################################################################
+# Required local tooling (add to README & enforce via scripts):
+#   - Prettier
+#   - ESLint (or equivalent linter)
+#   - Husky + lint-staged to run linters/test quick checks before commit
+#
+# Pre-commit checks (must run automatically):
+#   - formatting (prettier --check)
+#   - lint (eslint)
+#   - basic unit tests for touched files (jest --findRelatedTests)
+#   - simple security smoke (e.g., scan for secrets using detect-secrets or git-secrets)
+#
+# If pre-commit fails, fix locally; do not bypass by --no-verify.
+
+################################################################################
+# 5. CODE QUALITY RULES (style + patterns)
+################################################################################
+# 5.1 Type Safety
+#   - Prefer TypeScript (strict mode) for frontend and backend where possible.
+#   - Avoid `any` . If absolutely required, add an inline comment explaining why.
+
+# 5.2 Error Handling
+#   - Never swallow errors silently. Log and handle gracefully.
+#   - Return well-formed error responses for API endpoints (structure: { code, message }).
+
+# 5.3 Logging & Observability
+#   - Use structured logging (JSON) with requestId/callSid context for backend.
+#   - Do not log sensitive PII (SSNs, full credit card numbers, raw medical records).
+#   - Include traceable IDs in logs to correlate events across services.
+
+# 5.4 Performance Considerations
+#   - Avoid N+1 DB queries; use batching or joins.
+#   - Add indexes for commonly filtered columns (appointments.date, doctor_id, patient_id).
+
+################################################################################
+# 6. SECURITY RULES (must-follow)
+################################################################################
+# 6.1 Secrets
+#   - No secrets in source tree. Use environment variables or secret manager.
+#   - Rotate keys when exposed and follow incident response.
+
+# 6.2 Authentication & Authorization
+#   - All server APIs must validate JWTs / sessions.
+#   - Enforce RBAC server-side (do not rely solely on frontend checks).
+#   - Minimum privilege principle for service accounts and API keys.
+
+# 6.3 Input Validation & Output Encoding
+#   - Validate all inputs using schema validation (Zod / Joi / Pydantic).
+#   - Escape or encode output rendered into HTML to avoid XSS.
+
+# 6.4 Transport & Storage
+#   - Use HTTPS for all external endpoints.
+#   - Encrypt PII at rest (DB-level field encryption) if required by law.
+#   - Backups must be encrypted and access controlled.
+
+# 6.5 Dependency Hygiene
+#   - Update dependencies regularly.
+#   - Use Dependabot or scheduled Snyk checks.
+#   - Approve and test dependency updates via PRs.
+
+# 6.6 Vulnerability Response
+#   - If a security issue is reported, mark issue with `security`  label and escalate.
+#   - Follow incident playbook: triage → patch → test → deploy hotfix.
+
+################################################################################
+# 7. TESTING RULES (mandatory)
+################################################################################
+# 7.1 Unit Tests
+#   - All new features must include unit tests covering happy path and at least one error case.
+
+# 7.2 Integration Tests
+#   - Critical flows (webhook -> appointment creation -> notification) must have integration tests.
+
+# 7.3 End-to-End Tests
+#   - E2E tests (Cypress) for essential user journeys (login, book appointment, confirm notification).
+
+# 7.4 Test Data & Secrets
+#   - Never use real patient data in tests or CI. Use synthetic/test data only.
+
+################################################################################
+# 8. AUDIT & COMPLIANCE
+################################################################################
+# 8.1 Audit Logs
+#   - Persist audit logs for critical operations (appointment create/update/cancel, user role changes).
+#   - Logs must be immutable and include who, what, when, before/after.
+
+# 8.2 Data Retention & Privacy
+#   - Follow local laws for PII retention/deletion.
+#   - Provide scripts to purge or anonymize test/dev data.
+
+################################################################################
+# 9. ENFORCEMENT & EXCEPTIONS
+################################################################################
+# 9.1 Enforcement
+#   - CI + pre-commit + PR review are the mechanisms to enforce these rules.
+#   - Violations block merges until resolved.
+
+# 9.2 Exceptions
+#   - Exceptions must be documented in a linked Jira/Issue and approved by a project admin.
+#   - Temporary exceptions must have an expiration and assigned owner.
+
+################################################################################
+# 10. HOW TO COMPLY — QUICK CHECKLIST (include in PR body)
+################################################################################
+# - [ ] Branch follows naming convention
+# - [ ] Commit message has Jira key
+# - [ ] Lint & Prettier passed locally
+# - [ ] Unit tests added & pass locally
+# - [ ] Security scan (semgrep/snyk) run locally (or CI will run)
+# - [ ] No secrets in changed files (run detect-secrets)
+# - [ ] PR description includes acceptance criteria & test steps
+# - [ ] At least one reviewer assigned
+
+################################################################################
+# 11. TOOLS & SCRIPTS (recommended)
+################################################################################
+# - Pre-commit: husky + lint-staged
+# - Secrets detection: detect-secrets or git-secrets
+# - Static security: semgrep
+# - Dependency scan: snyk / Dependabot
+# - Formatting: prettier
+# - Lint: eslint (frontend/backend rules)
+# - Tests: jest / supertest / cypress
+
+# Example commands for local dev:
+#   npm run lint
+#   npm run test
+#   npx semgrep --config auto
+#   npx detect-secrets-hook
+
+################################################################################
+# 12. MAINTAINER CONTACTS & ESCALATION
+################################################################################
+# - Add maintainers or security contacts in README or SECURITY.md
+# - For security incidents: tag issue with "security", notify project admin and follow incident runbook.
+
+################################################################################
+# 13. LEGAL / ETHICS NOTE
+################################################################################
+# - This repository may handle sensitive healthcare data. Always follow applicable laws (e.g., local health data protection rules).
+# - If unsure, stop and consult the security/admin lead.
+
+################################################################################
+# Versioning & Ownership
+################################################################################
+# - windsurf.rules v1.0
+# - Last updated: 2025-01-27
+# - Owner: Ankit Raj (ankitrraj) - XCall Hospital Project Admin
+#
+# End of file
