@@ -8,7 +8,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-export function Layout({ children }: LayoutProps) {
+export default function Layout({ children }: LayoutProps) {
   return (
     <div className="h-screen flex bg-gray-50">
       {/* Sidebar */}
@@ -27,3 +27,5 @@ export function Layout({ children }: LayoutProps) {
     </div>
   );
 }
+
+export { Layout };

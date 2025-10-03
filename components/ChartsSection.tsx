@@ -22,7 +22,7 @@ const doctorWorkloadData = [
   { name: 'Dr. Davis', patients: 18, color: '#8B5CF6' },
 ];
 
-export function ChartsSection() {
+export default function ChartsSection() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       {/* Appointments Line Chart */}

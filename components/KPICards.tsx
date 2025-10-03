@@ -47,7 +47,7 @@ function KPICard({ title, value, icon: Icon, trend, color }: KPICardProps) {
   );
 }
 
-export function KPICards() {
+export default function KPICards() {
   const kpiData = [
     {
       title: 'Total Appointments Today',

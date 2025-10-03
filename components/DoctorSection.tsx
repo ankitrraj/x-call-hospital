@@ -125,7 +125,7 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
   );
 }
 
-export function DoctorSection() {
+export default function DoctorSection() {
   const [autoAssign, setAutoAssign] = React.useState(true);
 
   return (

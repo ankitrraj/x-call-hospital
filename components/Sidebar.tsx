@@ -11,14 +11,15 @@ import {
   Bell, 
   BarChart3, 
   Settings,
-  Stethoscope
+  Heart
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useHospital } from '@/context/HospitalContext';
 
 const sidebarItems = [
   {
     title: 'Dashboard',
-    href: '/',
+    href: '/dashboard',
     icon: Home,
   },
   {
@@ -55,18 +56,19 @@ const sidebarItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { hospital } = useHospital();
 
   return (
     <div className="flex h-full w-64 flex-col bg-white border-r border-gray-200">
       {/* Logo */}
       <div className="flex h-16 items-center px-6 border-b border-gray-200">
         <div className="flex items-center space-x-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded bg-orange-500">
-            <Stethoscope className="h-5 w-5 text-white" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500">
+            <Heart className="h-5 w-5 text-white" fill="currentColor" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-gray-900">XCall</h1>
-            <p className="text-xs text-gray-500">SMS Hospital</p>
+            <h1 className="text-lg font-bold text-gray-900">WithCaring</h1>
+            <p className="text-xs text-gray-500">{hospital?.name || 'Hospital'}</p>
           </div>
         </div>
       </div>

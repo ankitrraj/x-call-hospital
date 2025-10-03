@@ -123,7 +123,7 @@ function NotificationItem({ notification }: { notification: Notification }) {
   );
 }
 
-export function NotificationsSection() {
+export default function NotificationsSection() {
   const unreadCount = notificationsData.filter(n => !n.isRead).length;
 
   return (

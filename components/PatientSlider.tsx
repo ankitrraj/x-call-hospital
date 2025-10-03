@@ -120,7 +120,7 @@ function PatientCard({ patient }: { patient: Patient }) {
   );
 }
 
-export function PatientSlider() {
+export default function PatientSlider() {
   return (
     <Card className="mb-8">
       <CardHeader>
