@@ -47,7 +47,7 @@ const notificationsData: Notification[] = [
     id: '4',
     type: 'feedback',
     title: 'Patient Feedback',
-    message: 'Emily Davis rated Dr. Johnson 5 stars - "Excellent service"',
+    message: 'Emily Davis rated Dr. Johnson 5 stars - &quot;Excellent service&quot;',
     time: '2 hours ago',
     priority: 'low',
     isRead: true,
@@ -181,7 +181,7 @@ export default function NotificationsSection() {
             </div>
             <div className="pt-2 border-t">
               <p className="text-xs text-gray-500 mb-2">Recent Complaint:</p>
-              <p className="text-sm text-gray-700">"Long waiting time in queue"</p>
+              <p className="text-sm text-gray-700">&quot;Long waiting time in queue&quot;</p>
               <p className="text-xs text-gray-500 mt-1">- Patient #1234</p>
             </div>
           </CardContent>

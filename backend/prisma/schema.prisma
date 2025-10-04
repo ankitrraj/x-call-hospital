@@ -1,0 +1,209 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Hospital Model - Multi-tenant architecture
+model Hospital {
+  id            Int       @id @default(autoincrement())
+  name          String
+  code          String    @unique  // "SMS", "APOLLO", "FORTIS"
+  subdomain     String?   @unique  // "sms.withcaring.com"
+  logo          String?
+  address       String
+  phone         String
+  email         String
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  users         User[]
+  doctors       Doctor[]
+  patients      Patient[]
+  appointments  Appointment[]
+  settings      HospitalSettings?
+  auditLogs     AuditLog[]
+
+  @@map("hospitals")
+}
+
+// User Model - Hospital staff, doctors, admins
+model User {
+  id            String    @id @default(uuid())
+  hospital_id   Int       // Multi-tenant key
+  email         String
+  password      String    // Hashed with bcrypt
+  name          String
+  role          Role      @default(STAFF)
+  isActive      Boolean   @default(true)
+  lastLogin     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  hospital      Hospital  @relation(fields: [hospital_id], references: [id], onDelete: Cascade)
+  auditLogs     AuditLog[]
+  
+  @@unique([email, hospital_id])  // Same email can exist in different hospitals
+  @@index([hospital_id])
+  @@index([email])
+  @@map("users")
+}
+
+// Doctor Model - Hospital doctors
+model Doctor {
+  id              String    @id @default(uuid())
+  hospital_id     Int       // Multi-tenant key
+  name            String
+  specialization  String
+  phone           String
+  email           String?
+  qualification   String?
+  experience      Int?      // Years of experience
+  consultationFee Decimal?  @db.Decimal(10, 2)
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  hospital        Hospital  @relation(fields: [hospital_id], references: [id], onDelete: Cascade)
+  appointments    Appointment[]
+  
+  @@index([hospital_id])
+  @@index([phone])
+  @@map("doctors")
+}
+
+// Patient Model - Hospital patients
+model Patient {
+  id            String    @id @default(uuid())
+  hospital_id   Int       // Multi-tenant key
+  name          String
+  phone         String
+  email         String?
+  address       String?
+  dateOfBirth   DateTime?
+  gender        Gender?
+  bloodGroup    String?
+  emergencyContact String?
+  medicalHistory String?  // JSON string for medical history
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  hospital      Hospital  @relation(fields: [hospital_id], references: [id], onDelete: Cascade)
+  appointments  Appointment[]
+  
+  @@index([hospital_id])
+  @@index([phone, hospital_id])  // Fast lookup by phone within hospital
+  @@index([email])
+  @@map("patients")
+}
+
+// Appointment Model - Patient appointments
+model Appointment {
+  id            String    @id @default(uuid())
+  hospital_id   Int       // Multi-tenant key
+  patient_id    String
+  doctor_id     String
+  date          DateTime
+  timeSlot      String    // "10:00 AM - 10:30 AM"
+  status        AppointmentStatus @default(SCHEDULED)
+  notes         String?
+  diagnosis     String?
+  prescription  String?   // JSON string for prescription details
+  fee           Decimal?  @db.Decimal(10, 2)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  hospital      Hospital  @relation(fields: [hospital_id], references: [id], onDelete: Cascade)
+  patient       Patient   @relation(fields: [patient_id], references: [id], onDelete: Cascade)
+  doctor        Doctor    @relation(fields: [doctor_id], references: [id], onDelete: Cascade)
+  
+  @@index([hospital_id])
+  @@index([date, hospital_id])
+  @@index([patient_id])
+  @@index([doctor_id])
+  @@index([status])
+  @@map("appointments")
+}
+
+// Hospital Settings Model - Hospital-specific configurations
+model HospitalSettings {
+  id                Int       @id @default(autoincrement())
+  hospital_id       Int       @unique
+  theme_color       String    @default("#F97316")
+  logo_url          String?
+  working_hours     Json      // {"monday": {"start": "09:00", "end": "18:00"}}
+  appointment_duration Int    @default(30) // Minutes
+  twilio_number     String?
+  notifications     Json      // {"whatsapp": true, "sms": true, "email": true}
+  timezone          String    @default("Asia/Kolkata")
+  currency          String    @default("INR")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Relations
+  hospital          Hospital  @relation(fields: [hospital_id], references: [id], onDelete: Cascade)
+  
+  @@map("hospital_settings")
+}
+
+// Audit Log Model - Track all important actions
+model AuditLog {
+  id            String    @id @default(uuid())
+  hospital_id   Int       // Multi-tenant key
+  user_id       String?   // Nullable for system actions
+  action        String    // "CREATE_APPOINTMENT", "UPDATE_PATIENT", etc.
+  entity_type   String    // "appointment", "patient", "doctor"
+  entity_id     String?   // ID of the affected entity
+  old_values    Json?     // Previous state
+  new_values    Json?     // New state
+  ip_address    String?
+  user_agent    String?
+  timestamp     DateTime  @default(now())
+  
+  // Relations
+  hospital      Hospital  @relation(fields: [hospital_id], references: [id], onDelete: Cascade)
+  user          User?     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  
+  @@index([hospital_id])
+  @@index([user_id])
+  @@index([timestamp])
+  @@index([action])
+  @@map("audit_logs")
+}
+
+// Enums
+enum Role {
+  SUPER_ADMIN      // Can access all hospitals
+  HOSPITAL_ADMIN   // Can manage own hospital
+  DOCTOR          // Can view/update patients and appointments
+  STAFF           // Can create appointments, view patients
+  RECEPTIONIST    // Can create appointments only
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+  RESCHEDULED
+}

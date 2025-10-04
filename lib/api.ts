@@ -5,6 +5,42 @@ interface ApiOptions extends RequestInit {
   requireAuth?: boolean;
 }
 
+// Type definitions
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  hospital_id: number;
+}
+
+interface Appointment {
+  id: string;
+  patient_id: string;
+  doctor_id: string;
+  date: string;
+  status: string;
+  notes?: string;
+}
+
+interface Patient {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  address?: string;
+  hospital_id: number;
+}
+
+interface Doctor {
+  id: string;
+  name: string;
+  specialization: string;
+  phone: string;
+  email?: string;
+  hospital_id: number;
+}
+
 export async function apiRequest<T>(
   endpoint: string,
   options: ApiOptions = {}
@@ -61,7 +97,7 @@ export function removeAuthToken(): void {
 export const api = {
   // Auth
   login: (credentials: { email: string; password: string }) =>
-    apiRequest<{ token: string; user: any }>('/auth/login', {
+    apiRequest<{ token: string; user: User }>('/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
       requireAuth: false,
@@ -69,24 +105,24 @@ export const api = {
 
   // Appointments
   getAppointments: () =>
-    apiRequest<any[]>('/appointments'),
+    apiRequest<Appointment[]>('/appointments'),
   
   getAppointment: (id: string) =>
-    apiRequest<any>(`/appointments/${id}`),
+    apiRequest<Appointment>(`/appointments/${id}`),
 
   // Patients
   getPatients: () =>
-    apiRequest<any[]>('/patients'),
+    apiRequest<Patient[]>('/patients'),
   
   getPatient: (id: string) =>
-    apiRequest<any>(`/patients/${id}`),
+    apiRequest<Patient>(`/patients/${id}`),
 
   // Doctors
   getDoctors: () =>
-    apiRequest<any[]>('/doctors'),
+    apiRequest<Doctor[]>('/doctors'),
   
   getDoctor: (id: string) =>
-    apiRequest<any>(`/doctors/${id}`),
+    apiRequest<Doctor>(`/doctors/${id}`),
 
   // Dashboard stats
   getDashboardStats: () =>

@@ -6,7 +6,6 @@ import { Heart, Hospital, ArrowRight, Shield, Clock, Users, CheckCircle, Phone, 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
-import Image from 'next/image';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -74,7 +73,7 @@ export default function LandingPage() {
               transition={{ duration: 0.8 }}
             >
               <div className="inline-block bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                🎉 India's #1 Hospital Management Platform
+                🎉 India&apos;s #1 Hospital Management Platform
               </div>
               <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
                 Transform Your Hospital with{' '}
@@ -122,7 +121,7 @@ export default function LandingPage() {
                       <Hospital className="h-8 w-8 text-orange-500" />
                     </div>
                     <div>
-                      <div className="text-sm text-gray-500">Today's Appointments</div>
+                      <div className="text-sm text-gray-500">Today&apos;s Appointments</div>
                       <div className="text-2xl font-bold text-gray-900">47 Patients</div>
                     </div>
                   </div>
@@ -362,7 +361,7 @@ export default function LandingPage() {
                 <h3 className="text-xl font-bold text-white">WithCaring</h3>
               </div>
               <p className="text-sm">
-                India's leading hospital management platform trusted by healthcare professionals.
+                India&apos;s leading hospital management platform trusted by healthcare professionals.
               </p>
             </div>
             

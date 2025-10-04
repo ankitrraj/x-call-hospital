@@ -3,13 +3,14 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { UserCheck, Clock, Users, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Clock, Users, UserCheck } from 'lucide-react';
 
 interface Doctor {
   id: string;
   name: string;
   specialization: string;
-  status: 'online' | 'busy' | 'offline';
+  phone: string;
+  status: string;
   patientsHandled: number;
   avgResponseTime: string;
   availability: string;
@@ -20,6 +21,7 @@ const doctorsData: Doctor[] = [
     id: '1',
     name: 'Dr. Johnson',
     specialization: 'Cardiologist',
+    phone: '+91 98765 43210',
     status: 'online',
     patientsHandled: 28,
     avgResponseTime: '5 min',
@@ -29,6 +31,7 @@ const doctorsData: Doctor[] = [
     id: '2',
     name: 'Dr. Smith',
     specialization: 'General Medicine',
+    phone: '+91 98765 43211',
     status: 'busy',
     patientsHandled: 35,
     avgResponseTime: '8 min',
@@ -38,6 +41,7 @@ const doctorsData: Doctor[] = [
     id: '3',
     name: 'Dr. Williams',
     specialization: 'Pediatrician',
+    phone: '+91 98765 43212',
     status: 'online',
     patientsHandled: 22,
     avgResponseTime: '4 min',
@@ -47,6 +51,7 @@ const doctorsData: Doctor[] = [
     id: '4',
     name: 'Dr. Brown',
     specialization: 'Orthopedic',
+    phone: '+91 98765 43213',
     status: 'offline',
     patientsHandled: 31,
     avgResponseTime: '12 min',

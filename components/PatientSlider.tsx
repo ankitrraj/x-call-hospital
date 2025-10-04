@@ -125,7 +125,7 @@ export default function PatientSlider() {
     <Card className="mb-8">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Today's Patients</CardTitle>
+          <CardTitle>Today&apos;s Patients</CardTitle>
           <div className="flex space-x-2">
             <Button variant="outline" size="sm">
               <Upload className="h-4 w-4 mr-2" />

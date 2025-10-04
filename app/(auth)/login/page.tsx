@@ -65,7 +65,7 @@ export default function LoginPage() {
             transition={{ delay: 0.3, duration: 0.6 }}
           >
             <h2 className="text-4xl font-bold mb-4 leading-tight">
-              Join India's Leading<br />
+              Join India&apos;s Leading<br />
               Hospital Management Platform
             </h2>
             <p className="text-xl text-orange-100">
