@@ -10,6 +10,7 @@ A modern, professional hospital administration dashboard built with Next.js, ins
 ## ✨ Features
 
 ### 📊 **Dashboard Overview**
+
 - **Real-time KPI Cards** - Today's appointments, new patients, repeated visits, cancellations
 - **Interactive Charts** - Line charts for appointment trends, bar charts for doctor workload
 - **Trend Indicators** - Visual percentage changes compared to previous day
